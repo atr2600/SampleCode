@@ -9,7 +9,7 @@ import json
 
 def getTextFromImage(image_path, subscription_key):
     assert subscription_key
-    vision_base_url = "https://westus.api.cognitive.microsoft.com/vision/v2.0/"
+    vision_base_url = "https://centralus.api.cognitive.microsoft.com//vision/v2.0/"
 
     text_recognition_url = vision_base_url + "read/core/asyncBatchAnalyze"
 
@@ -54,7 +54,7 @@ class ImageContext(object):
     def __init__(self, subscription_key):
         self.subscription_key = subscription_key
 
-        self.vision_base_url = "https://westus.api.cognitive.microsoft.com/vision/v2.0/describe?maxCandidates=1&language=en"
+        self.vision_base_url = "https://centralus.api.cognitive.microsoft.com/vision/v2.0/describe?maxCandidates=1&language=en"
 
         self.headers    = {'Ocp-Apim-Subscription-Key': subscription_key,'Content-Type': 'application/octet-stream'}
         self.params     = {'visualFeatures': 'Categories,Description,Color'}
@@ -78,7 +78,7 @@ class TextToSpeech(object):
     def __init__(self, subscription_key):
         self.subscription_key = subscription_key
         self.access_token = None
-        fetch_token_url = "https://westus.api.cognitive.microsoft.com/sts/v1.0/issueToken"
+        fetch_token_url = "https://centralus.api.cognitive.microsoft.com/sts/v1.0/issueToken"
         headers = {'Ocp-Apim-Subscription-Key': self.subscription_key}
         response = requests.post(fetch_token_url, headers=headers)
         self.access_token = str(response.text)
@@ -88,7 +88,7 @@ class TextToSpeech(object):
     subscription key for an access token that is valid for ten minutes.
     '''
     def get_token(self):
-        fetch_token_url = "https://westus.api.cognitive.microsoft.com/sts/v1.0/issueToken"
+        fetch_token_url = "https://centralus.api.cognitive.microsoft.com/sts/v1.0/issueToken"
         headers = {
             'Ocp-Apim-Subscription-Key': self.subscription_key
         }
@@ -97,7 +97,7 @@ class TextToSpeech(object):
     
     def say_this(self, text='Hello', filename=''):
         self.tts = text
-        base_url = 'https://westus.tts.speech.microsoft.com/'
+        base_url = 'https://centralus.tts.speech.microsoft.com/'
         path = 'cognitiveservices/v1'
         constructed_url = base_url + path
         headers = {
@@ -137,7 +137,8 @@ class TextToSpeech(object):
 
 #Get Image Context
 #-----------------------------
-tts = TextToSpeech("PUT COGNITIVE SERVICES KEY HERE") #Cognitive Service Voice Service Subscription Key
+
+tts = TextToSpeech("9d116c1864e640c3b1b87a8c1dd74736") #Cognitive Service Voice Service Subscription Key
 
 time.sleep(1)
 
@@ -157,7 +158,7 @@ imgFile.write(imgdata)
 
 #Announce Text
 toAnnounce = ""
-for text in getTextFromImage("./snapshot.jpg", "PUT COGNITIVE SERVICES VISION KEY HERE"): #Cognitive Service Vision Service Subscription Key
+for text in getTextFromImage("./snapshot.jpg", "9d116c1864e640c3b1b87a8c1dd74736"): #Cognitive Service Vision Service Subscription Key
     print("---------" + text)
     toAnnounce += text + " or "
 
